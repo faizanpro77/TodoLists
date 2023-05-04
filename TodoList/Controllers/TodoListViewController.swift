@@ -8,26 +8,28 @@
 //using NSCode
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
-      
-       loadItems()
+        //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-       
+        loadItems()
         
-////         Do any additional setup after loading the view.
-//        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-//            itemArray = items
-//            print("==============>\(itemArray)")
-//        }
+        
+        
+        ////         Do any additional setup after loading the view.
+        //        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+        //            itemArray = items
+        //            print("==============>\(itemArray)")
+        //        }
         
         
     }
@@ -44,7 +46,7 @@ class TodoListViewController: UITableViewController {
         print("=======>cellForRowAt")
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         
-//        let cell = UITableViewCell(style: .default, reuseIdentifier: "ToDoItemCell")
+        //        let cell = UITableViewCell(style: .default, reuseIdentifier: "ToDoItemCell")
         
         
         let item = itemArray[indexPath.row]
@@ -54,11 +56,11 @@ class TodoListViewController: UITableViewController {
         //  value = condition ? valueIfTrue : valueIfFalse
         cell.accessoryType = item.done ? .checkmark : .none
         
-//        if item.done == true {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
+        //        if item.done == true {
+        //            cell.accessoryType = .checkmark
+        //        } else {
+        //            cell.accessoryType = .none
+        //        }
         
         return cell
     }
@@ -66,29 +68,36 @@ class TodoListViewController: UITableViewController {
     //MARK - TableView Delegate Method
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        print(ItemArray[indexPath.row])
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-        self.saveItems()
-    
         
-//        if itemArray[indexPath.row].done == false {
-//            itemArray[indexPath.row].done = true
-//        } else {
-//            itemArray[indexPath.row].done = false
-//        }
-     
+        
+        //        to update core data entity
+        //        itemArray[indexPath.row].setValue("completed", forKey: "title")
+        //        to delete core data element
+        //        context.delete(itemArray[indexPath.row])
+        //        itemArray.remove(at: indexPath.row)
+        
+                itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        self.saveItems()
+        
+        
+        //        if itemArray[indexPath.row].done == false {
+        //            itemArray[indexPath.row].done = true
+        //        } else {
+        //            itemArray[indexPath.row].done = false
+        //        }
+        
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        //it for after clicking on cell checkbox appear on perticular cell
-//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//        } else {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-//        }
+        //        //it for after clicking on cell checkbox appear on perticular cell
+        //        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+        //            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        //        } else {
+        //            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        //        }
         
         //it for after clicking on cell background highlight and dissmiss diselect automatic
-       
+        
     }
     
     
@@ -103,11 +112,13 @@ class TodoListViewController: UITableViewController {
             //what will happen once the user click the Add Item button on our UIAlert
             
             
-            let newItem = Item()
+            let newItem = Item(context: self.context)
+            
             newItem.title = textFeild.text!
+            newItem.done = false
             self.itemArray.append(newItem)
             self.saveItems()
-           
+            
             self.tableView.reloadData()
             
         }
@@ -123,26 +134,25 @@ class TodoListViewController: UITableViewController {
     
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
+        
         do{
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch{
-            print("Error encoding item array, \(error)")
+            print("Error Saving Context \(error)")
         }
         tableView.reloadData()
     }
     
     func loadItems() {
         
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do{
-            itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("Error decoding item array, \(error)")
-            }
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        do {
+            itemArray =  try context.fetch(request)
+        }catch {
+            print("Error fetching data from context \(error)")
         }
+        
     }
     
 }
