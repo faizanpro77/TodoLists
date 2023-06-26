@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B7EC8732A0287A300E3362C /* NSCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7EC8722A0287A300E3362C /* NSCode.swift */; };
+		2BACCD7F2A49834B00B22F15 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACCD7E2A49834B00B22F15 /* CategoryViewController.swift */; };
 		2BF5A04629D837C400E03C80 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5A04529D837C400E03C80 /* AppDelegate.swift */; };
 		2BF5A04829D837C400E03C80 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5A04729D837C400E03C80 /* SceneDelegate.swift */; };
 		2BF5A04A29D837C400E03C80 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5A04929D837C400E03C80 /* TodoListViewController.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		2B7EC8722A0287A300E3362C /* NSCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCode.swift; sourceTree = "<group>"; };
+		2BACCD7E2A49834B00B22F15 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		2BF5A04229D837C400E03C80 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF5A04529D837C400E03C80 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2BF5A04729D837C400E03C80 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 		2B8913F329F8105400F5024D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2BACCD7E2A49834B00B22F15 /* CategoryViewController.swift */,
 				2BF5A04929D837C400E03C80 /* TodoListViewController.swift */,
 			);
 			path = Controllers;
@@ -188,6 +191,7 @@
 				2BF5A04629D837C400E03C80 /* AppDelegate.swift in Sources */,
 				2BF5A04829D837C400E03C80 /* SceneDelegate.swift in Sources */,
 				2BF5A05029D837C400E03C80 /* TodoList.xcdatamodeld in Sources */,
+				2BACCD7F2A49834B00B22F15 /* CategoryViewController.swift in Sources */,
 				2B7EC8732A0287A300E3362C /* NSCode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
