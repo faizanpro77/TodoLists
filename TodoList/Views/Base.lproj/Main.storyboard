@@ -40,6 +40,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="userTableView" destination="qbm-mE-0P6" id="UYx-Tm-qZx"/>
                         <segue destination="irS-90-Ixl" kind="show" identifier="goToItems" id="RnF-3W-geu"/>
                     </connections>
                 </tableViewController>
@@ -86,6 +87,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableViewList" destination="etD-KE-A8W" id="Q6C-1y-q7o"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JcZ-tD-Pco" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

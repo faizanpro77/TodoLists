@@ -11,6 +11,8 @@ import CoreData
 class CategoryViewController: UITableViewController {
     
     
+    @IBOutlet var userTableView: UITableView!
+    
     var categories = [Category]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -36,6 +38,39 @@ class CategoryViewController: UITableViewController {
         
         
     }
+    
+    
+    //MARK: TableView DataSource Methods
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            print("faizan========>")
+//                    self.manager.deleteUser(userEntity: self.users[indexPath.row]) // Core Data
+//                    self.users.remove(at: indexPath.row) // Array
+//                    self.userTableView.reloadData() // Table Reload karna hai
+            
+            
+            
+            self.deleteUser(userCategory: self.categories[indexPath.row])
+            self.categories.remove(at: indexPath.row)
+            self.userTableView.reloadData()
+            
+            
+                }
+
+        return UISwipeActionsConfiguration(actions: [delete])
+        
+    }
+    
+    
+    func deleteUser(userCategory:Category) {
+        
+        context.delete(userCategory)
+        saveCategories()
+        
+    }
+    
     
     //MARK: Data Manipulation Methods
     func saveCategories() {

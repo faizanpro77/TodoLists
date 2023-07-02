@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 //        print("didFinishLaunchingWithOptions")
         
+//        print("Database Path", URL.documentDirectory)
+        if let documentsPathURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            //This gives you the URL of the path
+            print("Database Path",documentsPathURL)
+        }
+
         
         return true
     }

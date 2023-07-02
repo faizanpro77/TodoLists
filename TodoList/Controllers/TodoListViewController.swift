@@ -13,6 +13,10 @@ import CoreData
 
 class TodoListViewController: UITableViewController {
     
+    
+    @IBOutlet var tableViewList: UITableView!
+    
+    
     var itemArray = [Item]()
     var selectedCategory : Category? {
         didSet {
@@ -105,6 +109,23 @@ class TodoListViewController: UITableViewController {
         //it for after clicking on cell background highlight and dissmiss diselect automatic
         
     }
+    
+    
+    //MARK: TableView DataSource Methods
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            
+            self.context.delete(self.itemArray[indexPath.row])
+            self.itemArray.remove(at: indexPath.row)
+            self.saveItems()
+            self.tableViewList.reloadData()
+            
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
     
     
  
