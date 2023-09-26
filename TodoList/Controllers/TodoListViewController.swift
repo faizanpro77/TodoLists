@@ -5,17 +5,12 @@
 //  Created by MD Faizan on 01/04/23.
 //
 
-//using NSCode
-
 import UIKit
 import CoreData
 
-
 class TodoListViewController: UITableViewController {
     
-    
     @IBOutlet var tableViewList: UITableView!
-    
     
     var itemArray = [Item]()
     var selectedCategory : Category? {
@@ -25,25 +20,16 @@ class TodoListViewController: UITableViewController {
     }
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        
-        
-        
-        
-        
         
         ////         Do any additional setup after loading the view.
         //        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
         //            itemArray = items
         //            print("==============>\(itemArray)")
         //        }
-        
-        
     }
     
     //MARK: - Tableview Datasource Methods
@@ -57,7 +43,6 @@ class TodoListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         
         //        let cell = UITableViewCell(style: .default, reuseIdentifier: "ToDoItemCell")
-        
         
         let item = itemArray[indexPath.row]
         cell.textLabel?.text = item.title
@@ -79,16 +64,14 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
         //        to update core data entity
         //        itemArray[indexPath.row].setValue("completed", forKey: "title")
         //        to delete core data element
         //        context.delete(itemArray[indexPath.row])
         //        itemArray.remove(at: indexPath.row)
         
-                itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         self.saveItems()
-        
         
         //        if itemArray[indexPath.row].done == false {
         //            itemArray[indexPath.row].done = true
@@ -96,7 +79,7 @@ class TodoListViewController: UITableViewController {
         //            itemArray[indexPath.row].done = false
         //        }
         
-        
+        //Change the selected background view of the cell.
         tableView.deselectRow(at: indexPath, animated: true)
         
         //        //it for after clicking on cell checkbox appear on perticular cell
@@ -107,12 +90,9 @@ class TodoListViewController: UITableViewController {
         //        }
         
         //it for after clicking on cell background highlight and dissmiss diselect automatic
-        
     }
     
-    
     //MARK: TableView DataSource Methods
-    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
@@ -126,9 +106,6 @@ class TodoListViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [delete])
     }
     
-    
-    
- 
     //MARK: - Add New Item
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -139,7 +116,6 @@ class TodoListViewController: UITableViewController {
             
             //what will happen once the user click the Add Item button on our UIAlert
             
-            
             let newItem = Item(context: self.context)
             
             newItem.title = textFeild.text!
@@ -149,7 +125,6 @@ class TodoListViewController: UITableViewController {
             self.saveItems()
             
             self.tableView.reloadData()
-            
         }
         
         alert.addTextField { (alertTextField) in
@@ -161,9 +136,7 @@ class TodoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    
     func saveItems() {
-        
         do{
             try context.save()
         } catch{
@@ -174,17 +147,14 @@ class TodoListViewController: UITableViewController {
     
     func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
         
-//        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        //        let request : NSFetchRequest<Item> = Item.fetchRequest()
         let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@",  selectedCategory!.name!)
         
         if let additionalPredicate = predicate {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate,additionalPredicate])
         }else{
             request.predicate = categoryPredicate
-            
         }
-
-        
         do {
             itemArray =  try context.fetch(request)
         }catch {
@@ -192,9 +162,6 @@ class TodoListViewController: UITableViewController {
         }
         tableView.reloadData()
     }
-    
-    
-    
 }
 
 //MARK: - Search bar method
@@ -203,15 +170,11 @@ extension TodoListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         let request: NSFetchRequest<Item> = Item.fetchRequest()
-        
-       
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-      
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
         //here i pass new request to get search specific data
         loadItems(with: request, predicate: predicate)
-        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -223,8 +186,6 @@ extension TodoListViewController: UISearchBarDelegate {
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
-            
         }
-        
     }
 }

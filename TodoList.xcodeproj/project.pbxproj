@@ -109,8 +109,8 @@
 				2B8913F329F8105400F5024D /* Controllers */,
 				2B8913F229F8103500F5024D /* Data Model */,
 				2B8913F429F8107100F5024D /* Views */,
-				2B7EC8742A0287C400E3362C /* trash */,
 				2B8913F529F8109500F5024D /* Supporting Files */,
+				2B7EC8742A0287C400E3362C /* trash */,
 				2BF5A05629D837C800E03C80 /* Info.plist */,
 			);
 			path = TodoList;

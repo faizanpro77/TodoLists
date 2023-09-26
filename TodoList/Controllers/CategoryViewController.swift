@@ -10,21 +10,18 @@ import CoreData
 
 class CategoryViewController: UITableViewController {
     
-    
     @IBOutlet var userTableView: UITableView!
     
     var categories = [Category]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        loadCategories()
         
+        loadCategories()
     }
-
-    //MARK: TableView DataSource Methods
     
+    //MARK: TableView DataSource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
@@ -35,46 +32,30 @@ class CategoryViewController: UITableViewController {
         
         cell.textLabel?.text = categories[indexPath.row].name
         return cell
-        
-        
     }
     
-    
     //MARK: TableView DataSource Methods
-    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             print("faizan========>")
-//                    self.manager.deleteUser(userEntity: self.users[indexPath.row]) // Core Data
-//                    self.users.remove(at: indexPath.row) // Array
-//                    self.userTableView.reloadData() // Table Reload karna hai
-            
-            
-            
+            //                    self.manager.deleteUser(userEntity: self.users[indexPath.row]) // Core Data
+            //                    self.users.remove(at: indexPath.row) // Array
+            //                    self.userTableView.reloadData() // Table Reload karna hai
             self.deleteUser(userCategory: self.categories[indexPath.row])
             self.categories.remove(at: indexPath.row)
             self.userTableView.reloadData()
-            
-            
-                }
-
+        }
         return UISwipeActionsConfiguration(actions: [delete])
-        
     }
-    
     
     func deleteUser(userCategory:Category) {
-        
         context.delete(userCategory)
         saveCategories()
-        
     }
-    
     
     //MARK: Data Manipulation Methods
     func saveCategories() {
-        
         do{
             try context.save()
         }catch{
@@ -82,26 +63,19 @@ class CategoryViewController: UITableViewController {
         }
         tableView.reloadData()
     }
-    
-    
+   
     func loadCategories() {
-        
         let request: NSFetchRequest<Category> = Category.fetchRequest()
         do {
-        categories = try context.fetch(request)
+            categories = try context.fetch(request)
         }catch{
             print("Error loading Category \(error)")
         }
-        
         tableView.reloadData()
-        
     }
     
     //MARK: Add New Categories
-    
-    
     @IBAction func UIBarButtonItem(_ sender: UIBarButtonItem) {
-        
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Items", style: .default) { (action) in
@@ -110,8 +84,6 @@ class CategoryViewController: UITableViewController {
             newCategory.name = textField.text!
             self.categories.append(newCategory)
             self.saveCategories()
-            
-            
         }
         
         alert.addAction(action)
@@ -120,22 +92,12 @@ class CategoryViewController: UITableViewController {
             textField = field
             textField.placeholder = "Add a new Category"
         }
-    present(alert, animated: true, completion: nil)
-        
+        present(alert, animated: true, completion: nil)
     }
     
-    
-    
-    
-    
     //MARK: TableView Delegate Methods
-    
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         performSegue(withIdentifier: "goToItems", sender: self)
-        
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -143,11 +105,5 @@ class CategoryViewController: UITableViewController {
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedCategory = categories[indexPath.row]
         }
-        
     }
-    
-    
-    
-    
-
 }
